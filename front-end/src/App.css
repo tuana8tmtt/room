@@ -1,0 +1,9 @@
+.login,
+.image {
+  min-height: 100vh;
+}
+.bg-image {
+  background-image: url('https://images.creativemarket.com/0.1.0/ps/4995544/580/387/m1/fpnw/wm1/home-rent-logo2-.jpg?1&s=bba3d8d4dd5f5143c79a39bcaa8cbf19');
+  background-size: cover;
+  background-position: center center;
+}
