@@ -32,6 +32,10 @@ import AddContract from './pages/admin/contract/AddContract'
 import EditContract from './pages/admin/contract/EditContract'
 import ViewProduct from './pages/admin/products/ViewProduct'
 import TabAuth from './pages/auth/TabAuth'
+import ListExpense from './pages/admin/expense/listExpense'
+import EditExpense from './pages/admin/expense/editExpense'
+import EditExpenseRoom from './pages/admin/expense/editExpenseRoom'
+import BillExpense from './pages/admin/expense/billExpense'
 
 
 
@@ -60,10 +64,11 @@ function App() {
             <Route path='add' element={<AddContract />} />
             <Route path='edit/:id' element={<EditContract />} />
           </Route>
-          <Route path='category'>
-            <Route index element={<ListCate />} />
-            <Route path='add' element={<AddCate />} />
-            <Route path='edit/:id' element={<EditCate />} />
+          <Route path='expense'>
+            <Route index element={<ListExpense />} />
+            <Route path='edit/:id' element={<EditExpense />} />
+            <Route path='edit/room/:id' element={<EditExpenseRoom />} />
+            <Route path='bill/:id' element={<BillExpense />} />
           </Route>
           <Route path='order'>
             <Route index element={<ListOrder />} />
