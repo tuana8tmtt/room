@@ -23,7 +23,7 @@ type FormTypes = {
 
 
 const EditProduct = () => {
-    const { register, handleSubmit, formState, reset } = useForm<ProductType>();
+    const { register, handleSubmit, formState, reset,  } = useForm<ProductType>();
     const [categories, setCategories] = useState<CateType[]>();
     const [preview, setPreview] = useState<string>();
     const [room, setRoom] = useState<ProductType>()

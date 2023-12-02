@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    area: {
+        type: String,
+        
+    }
 },{timestamps:true})
 
 export default mongoose.model('Product',productSchema)

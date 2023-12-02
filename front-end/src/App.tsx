@@ -36,6 +36,10 @@ import ListExpense from './pages/admin/expense/listExpense'
 import EditExpense from './pages/admin/expense/editExpense'
 import EditExpenseRoom from './pages/admin/expense/editExpenseRoom'
 import BillExpense from './pages/admin/expense/billExpense'
+import InfoAcc from './pages/admin/user/InfoAcc'
+import Apartment from './pages/admin/user/apartment'
+import ListDevice from './pages/admin/device/ListDevice'
+import ViewDevice from './pages/admin/device/ViewDevice'
 
 
 
@@ -74,6 +78,16 @@ function App() {
             <Route index element={<ListOrder />} />
             <Route path='add' element={<AddCate />} />
             <Route path='detail/:id' element={<EditOrder />} />
+          </Route>
+          <Route path='user'>
+            <Route index element={<InfoAcc />} />
+          </Route>
+          <Route path='apartment'>
+            <Route index element={<Apartment />} />
+          </Route>
+          <Route path='device'>
+            <Route index element={<ListDevice />} />
+            <Route path='view/:id' element={<ViewDevice />} />
           </Route>
         </Route>
         <Route path='home' element={<TabAuth />} />

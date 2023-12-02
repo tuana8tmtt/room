@@ -116,10 +116,10 @@ const AddProduct = () => {
                             </Row>
 
                             <Form.Group >
-                                <Form.Label>Mô tả</Form.Label>
+                                <Form.Label>Desc</Form.Label>
                                 <Form.Control
                                     as="textarea"
-                                    placeholder="mô tả"
+                                    placeholder="desc"
                                     style={{ height: '100px' }}
                                     {...register('desc')}
                                     required

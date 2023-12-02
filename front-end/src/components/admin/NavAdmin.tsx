@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Button, Layout } from 'antd';
-import { ContainerOutlined, CreditCardOutlined, DashboardOutlined, HomeOutlined, LogoutOutlined, ShoppingCartOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { ContainerOutlined, CreditCardOutlined, DashboardOutlined, DesktopOutlined, HomeOutlined, LogoutOutlined, ShoppingCartOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 
@@ -33,6 +33,9 @@ const NavAdmin = ({ onLogout }: Props) => {
 					</Menu.Item>
 					<Menu.Item key={'Expense'} icon={<CreditCardOutlined />}>
 						<NavLink className="nav-link" to='expense'>Expense</NavLink>
+					</Menu.Item>
+					<Menu.Item key={'Device'} icon={<DesktopOutlined />}>
+						<NavLink className="nav-link" to='device'>Device</NavLink>
 					</Menu.Item>
 					<Menu.Item
 						icon={<LogoutOutlined />}
