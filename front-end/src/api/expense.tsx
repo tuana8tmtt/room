@@ -1,19 +1,18 @@
-import { ProductType } from "../pages/types/product";
 import { isAuthenticate } from "../utils/auth";
 import instance from "./instance";
 
 
 
-export const listroom = () => {
-    const url = `/rooms/`;
+export const list = () => {
+    const url = `/expense/`;
     return instance.get(url);
 }
 export const remove = (id: number) => {
-    const url = `/rooms/${id}`;
+    const url = `/expense/${id}`;
     return instance.delete(url);
 }
-export const add = (product: ProductType, { token, user} = isAuthenticate()) => {
-    const url = `/rooms/${user._id}`;
+export const add = (product: any, { token, user} = isAuthenticate()) => {
+    const url = `/expense/${user._id}`;
     return instance.post(url, product,{
         headers: {
             "Authorization": `Bearer ${token}`
@@ -21,10 +20,10 @@ export const add = (product: ProductType, { token, user} = isAuthenticate()) => 
     });
 }
 export const listbyID = (id: number) => {
-    const url = `/rooms/${id}`;
+    const url = `/expense/${id}`;
     return instance.get(url);
 }
-export const update = (product: ProductType) =>{
-    const url = `/rooms/${product._id}`;
+export const update = (product: any) =>{
+    const url = `/expense/${product._id}`;
     return instance.put(url, product)
 }

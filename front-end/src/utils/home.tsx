@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const Money = (currency: number) => currency.toLocaleString("it-IT", { style: "currency", currency: "VND" });
+export const Money = (currency: number) => currency?.toLocaleString("it-IT", { style: "currency", currency: "VND" });
 export const uploadImg = async (fileName: string) => {
     const formData = new FormData();
     formData.append("file", fileName);

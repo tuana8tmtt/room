@@ -4,34 +4,22 @@ const furnitureSchema = new mongoose.Schema({
     status:{
         type:String,
     },
-    name:{
-        type:String,
-    },
-    image:{
-        type: String,
-    },
-    price:{
-        type: Number,
-    },
-    image:{
-        type: String,
-    },
-    status:{
-        type: String,
+    numberRoom:{
+        type:Number,
     },
     quantity:{
         type: Number,
     },
-    description:{
+    address:{
         type: String,
     },
-    room_id:{
-        type: Number,
+    service_id:{
+        type: String,
     },
     buy_date:{
         type: String,
     },
-    guarantee_period:{
+    guarantee:{
         type: String,
     },
 

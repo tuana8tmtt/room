@@ -1,11 +1,17 @@
 import { Breadcrumb } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { listbyID } from '../../../api/product'
+import { listbyIDrevenue, listrevenue } from '../../../api/revenua'
+import { Money } from '../../../utils/home'
 
 const BillExpense = () => {
+  const [cates, setCates] = useState<any>();
+  const [rooms, setRooms] = useState<any>();
+  const [revenuas, setRevenuas] = useState<any>();
   const navigate = useNavigate()
-
+  const { id } = useParams()
   const Print = () => {
     let printContent = document.getElementById('print')?.innerHTML;
     let originalContents = document.body.innerHTML;
@@ -13,10 +19,26 @@ const BillExpense = () => {
     window.print();
     document.body.innerHTML = originalContents;
   }
+  const dataRevenuas = revenuas?.filter(item => item.roomId === rooms._id)
 
+
+
+  useEffect(() => {
+
+    const getRoom = async () => {
+      const { data } = await listbyID(id)
+      setRooms(data)
+    }
+    getRoom()
+    const getRevenua = async () => {
+      const { data } = await listrevenue()
+      setRevenuas(data)
+    }
+    getRevenua()
+  }, [])
   return (
     <div>
-      <Layout style={{ padding: '0 24px 24px', height: "100vh" }}>
+      <Layout style={{ padding: '0 24px 24px', minHeight: '100vh', maxHeight: '900vh' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>Expense</Breadcrumb.Item>
@@ -42,7 +64,7 @@ const BillExpense = () => {
                       <div className="col-sm-6">
                         <div className="text-muted">
                           <h5 className="font-size-16 mb-3">Payer :</h5>
-                          <h5 className="font-size-16 mb-3">Room :</h5>
+                          <h5 className="font-size-16 mb-3">Room : {rooms?.name}</h5>
                         </div>
                       </div>
                       <div className="col-sm-6">
@@ -62,28 +84,18 @@ const BillExpense = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">01</th>
-                              <td>
-                                <div>
-                                  <h5 className="text-truncate font-size-14 mb-1">Black Strap A012</h5>
-                                  <p className="text-muted mb-0">Watch, Black</p>
-                                </div>
-                              </td>
-                              <td>$ 245.50</td>
-                              <td>1</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">02</th>
-                              <td>
-                                <div>
-                                  <h5 className="text-truncate font-size-14 mb-1">Stainless Steel S010</h5>
-                                  <p className="text-muted mb-0">Watch, Gold</p>
-                                </div>
-                              </td>
-                              <td>$ 245.50</td>
-                              <td>2</td>
-                            </tr>
+                            {dataRevenuas?.map((item, index) => (
+                              <tr>
+                                <th scope="row">{index + 1}</th>
+                                <td>
+                                  <div>
+                                    <h5 className="text-truncate font-size-14 mb-1">{item.costname}</h5>
+                                  </div>
+                                </td>
+                                <td>{Money(item.cost)}</td>
+                                <td>{item.paymentdate}</td>
+                              </tr>
+                            ))}
 
                           </tbody>
                         </table>

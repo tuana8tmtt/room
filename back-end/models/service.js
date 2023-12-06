@@ -10,6 +10,9 @@ const serviceSchema = new mongoose.Schema({
     price:{
         type: Number,
     },
+    image:{
+        type: String
+    }
 
 },{timestamps:true})
 

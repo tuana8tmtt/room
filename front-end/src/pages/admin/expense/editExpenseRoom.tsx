@@ -1,9 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Breadcrumb, InputRef, Layout } from 'antd';
+import { Breadcrumb, InputRef, Layout, notification } from 'antd';
 import { Button, Form, Input, Popconfirm, Table } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import { Content } from 'antd/lib/layout/layout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { add, list, remove, update } from '../../../api/expense';
+import { addrevenue, listrevenue, removerevenue, updaterevenue } from '../../../api/revenua';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-bootstrap';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -102,81 +108,82 @@ const EditableCell: React.FC<EditableCellProps> = ({
 type EditableTableProps = Parameters<typeof Table>[0];
 
 interface DataType {
-  key: React.Key;
-  name: string;
-  age: string;
-  address: string;
+  key: React.Key
+  costname: string;
+  cost: number;
+  paymentdeadline: string;
+  paymentdate: string;
+  roomId: string
 }
 
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 const EditExpenseRoom = () => {
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: '0',
-      name: 'Edward King 0',
-      age: '32',
-      address: 'London, Park Lane no. 0',
-    },
-    {
-      key: '1',
-      name: 'Edward King 1',
-      age: '32',
-      address: 'London, Park Lane no. 1',
-    },
-  ]);
+  const [dataSource, setDataSource] = useState<any>([]);
+  const [dataTable, setDataTable] = useState<DataType>();
 
+  console.log(dataSource);
+
+  const { id } = useParams();
   const navigate = useNavigate()
 
   const [count, setCount] = useState(2);
 
-  const handleDelete = (key: React.Key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
+  const handleDelete = (_id: number) => {
+    const newData = dataSource.filter((item: any) => item._id !== _id);
     setDataSource(newData);
+    removerevenue(_id)
   };
+
+  const data = dataSource.filter((item: any) => item.roomId === id)
 
   const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
     {
       title: 'Cost name',
-      dataIndex: 'name',
+      dataIndex: 'costname',
       width: '30%',
       editable: true,
     },
     {
       title: 'Cost',
-      dataIndex: 'age',
+      dataIndex: 'cost',
       editable: true,
     },
     {
       title: 'Payment deadline',
-      dataIndex: 'address',
+      dataIndex: 'paymentdeadline',
       editable: true,
     },
     {
       title: 'Payment date',
-      dataIndex: 'address',
+      dataIndex: 'paymentdate',
       editable: true,
     },
     {
       title: 'operation',
-      dataIndex: 'operation',
-      render: (_, record: { key: React.Key }) =>
-        dataSource.length >= 1 ? (
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
+      dataIndex: '',
+      render: (record) => (
+        <>
+          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)}>
+            <button className='btn btn-danger'>Delete</button>
           </Popconfirm>
-        ) : null,
+        </>
+      )
+
     },
   ];
 
   const handleAdd = () => {
     const newData: DataType = {
       key: count,
-      name: `Edward King ${count}`,
-      age: '32',
-      address: `London, Park Lane no. ${count}`,
+      costname: `Enter here`,
+      cost: 1000000,
+      paymentdeadline: `Enter here`,
+      paymentdate: `Enter here`,
+      roomId: id
     };
     setDataSource([...dataSource, newData]);
+    setDataTable(newData)
     setCount(count + 1);
   };
 
@@ -184,17 +191,40 @@ const EditExpenseRoom = () => {
 
   }
 
-  const handleSave = (row: DataType) => {
+  const handleSave = async (row: any) => {
     const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
+    const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
+    newData.map(item => {
+      updaterevenue(item)
+    })
     setDataSource(newData);
   };
+  const [api, contextHolder] = notification.useNotification();
 
+  const openNotificationWithIcon = () => {
+    api.success({
+      message: 'Save Success',
+    });
+  };
+  const onSubmit = async (row: any) => {
+
+    try {
+      console.log(dataSource);
+      await dataSource.map(iteam => {
+        addrevenue(iteam);
+      })
+      openNotificationWithIcon()
+    } catch (error: any) {
+      console.log(error(error.response.data.error.message || error.response.data.message));
+      alert("error");
+
+    }
+  }
   const components = {
     body: {
       row: EditableRow,
@@ -217,10 +247,17 @@ const EditExpenseRoom = () => {
       }),
     };
   });
-
+  useEffect(() => {
+    const getProducts = async () => {
+      const { data } = await listrevenue();
+      setDataSource(data);
+    }
+    getProducts();
+  }, [])
   return (
     <div>
-      <Layout style={{ padding: '0 24px 24px', height: "100vh" }}>
+      {contextHolder}
+      <Layout style={{ padding: '0 24px 24px', minHeight: '100vh', maxHeight: '900vh' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>Expense</Breadcrumb.Item>
@@ -241,7 +278,7 @@ const EditExpenseRoom = () => {
               components={components}
               rowClassName={() => 'editable-row'}
               bordered
-              dataSource={dataSource}
+              dataSource={data}
               columns={columns as ColumnTypes}
             />
             <Button onClick={handleAdd} type="primary" style={{ float: 'right' }}>
@@ -249,7 +286,7 @@ const EditExpenseRoom = () => {
             </Button>
           </div>
           <div>
-            <button className='btn btn-info' onClick={handleEditSave} style={{ float: 'right' }}>
+            <button className='btn btn-info' onClick={onSubmit} style={{ float: 'right' }}>
               Save
             </button>
             <button className='btn btn-warning' onClick={() => navigate(-1)} style={{ float: 'right', marginRight: '20px' }}>

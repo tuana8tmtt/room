@@ -7,7 +7,7 @@ import { Button, Radio } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { ProductType } from '../../types/product';
 import swal from 'sweetalert';
-import { list, remove } from '../../../api/product';
+import { listroom, remove } from '../../../api/product';
 import Swal from 'sweetalert2';
 import { Money } from '../../../utils/home';
 
@@ -20,7 +20,7 @@ const ListProduct = () => {
 
     useEffect(() => {
         const getProducts = async () => {
-            const { data } = await list();
+            const { data } = await listroom();
             setProducts(data);
         }
         getProducts();
@@ -77,7 +77,7 @@ const ListProduct = () => {
 
     return (
         <div>
-            <Layout style={{ padding: '0 24px 24px', height:"100vh" }}>
+            <Layout style={{ padding: '0 24px 24px', minHeight: '100vh', maxHeight: '900vh' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
                     <Breadcrumb.Item>Room</Breadcrumb.Item>

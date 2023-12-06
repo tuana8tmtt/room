@@ -1,10 +1,11 @@
-import { Avatar, Breadcrumb, Card, Col, Layout, Row } from 'antd'
+import { Avatar, Breadcrumb, Card, Col, Layout, notification, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { uploadImg } from '../../../utils/home';
+import { add, list } from '../../../api/service';
+import { Money, uploadImg } from '../../../utils/home';
 
 type Props = {}
 const { Meta } = Card;
@@ -13,13 +14,14 @@ const { Meta } = Card;
 const ListDevice = (props: Props) => {
     const [preview, setPreview] = useState<string>();
     const [show, setShow] = useState(false);
+    const [service, setService] = useState<any>();
     const formRef = useRef();
 
 
     const handleClose = () => {
         setShow(false)
         setPreview("")
-        reset({ deviceName: "", price: "" })
+        reset({ name: "", price: "" })
 
     };
     const handleShow = () => setShow(true);
@@ -29,23 +31,39 @@ const ListDevice = (props: Props) => {
     const handlePreview = (e: any) => {
         setPreview(URL.createObjectURL(e.target.files[0]));
     }
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotificationWithIcon = () => {
+        api.success({
+            message: 'Add Success',
+        });
+    };
 
     const onSubmit: SubmitHandler<any> = async data => {
         try {
             const url = await uploadImg(data.image[0])
-            // await add({ ...data, image: url });
+            await add({ ...data, image: url });
+            setService(prevData => [...prevData, { ...data, image: url }]);
             setPreview("");
-            openNotificationWithIcon('success')
+            openNotificationWithIcon()
             reset();
+            handleClose()
         } catch (error: any) {
             console.log(error(error.response.data.error.message || error.response.data.message));
 
         }
     }
-
+    useEffect(() => {
+        const getProducts = async () => {
+            const { data } = await list();
+            setService(data);
+        }
+        getProducts();
+    }, [])
     return (
         <div>
-            <Layout style={{ padding: '0 24px 24px', height: "100vh" }}>
+            {contextHolder}
+            <Layout style={{ padding: '0 24px 24px', minHeight: '100vh', maxHeight: '900vh' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
                     <Breadcrumb.Item>Expense</Breadcrumb.Item>
@@ -74,10 +92,10 @@ const ListDevice = (props: Props) => {
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div>
-                                        <Form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+                                        <Form onSubmit={handleSubmit(onSubmit)} >
                                             <Form.Group as={Col} md="4" className="mb-3" >
                                                 <Form.Label>Device Name</Form.Label>
-                                                <Form.Control required type="text" {...register('deviceName')} />
+                                                <Form.Control required type="text" {...register('name')} />
                                             </Form.Group>
                                             <div className="col-span-3">
                                                 <div className="mt-1">
@@ -91,7 +109,7 @@ const ListDevice = (props: Props) => {
                                             </div>
                                             <Form.Group controlId="formFile" className="mt-5">
                                                 <Form.Label>Upload Image Device</Form.Label>
-                                                <Form.Control type="file" onChange={e => handlePreview(e)} style={{ width: '300px' }} />
+                                                <Form.Control type="file" {...register('image')} onChange={e => handlePreview(e)} style={{ width: '300px' }} />
                                             </Form.Group>
                                             <Form.Group as={Col} md="4" className="mb-3" >
                                                 <Form.Label>Price</Form.Label>
@@ -112,27 +130,33 @@ const ListDevice = (props: Props) => {
                             </Modal>
                         </div>
                         <Row gutter={16}>
-                            <Col span={8}>
-                                <Card
-                                    style={{ width: 400 }}
-                                    cover={
-                                        <img
-                                            alt="example"
-                                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                                        />
-                                    }
-                                    actions={[
-                                        <NavLink to={`view/:id`}><button className='btn btn-info'>View</button></NavLink>
+                            {service?.map((item, index) => (
+                                <Col span={8}>
+                                    <Card
+                                        style={{ width: 400, marginBottom: '30px' }}
+                                        cover={
+                                            <img
+                                                alt="example"
+                                                src={item.image}
+                                                style={{width: "auto", height:"auto", maxWidth: "400px", maxHeight: "200px", margin: 'auto', marginTop: '20px'}}
+                                                
+                                            />
+                                        }
+                                        actions={[
+                                            <NavLink to={`view/`+ item._id}><button className='btn btn-info'>View</button></NavLink>
 
-                                    ]}
-                                >
-                                    <Meta
-                                        title={`Title`}
-                                        description={`Quantity: `}
-                                    />
-                                </Card>
-                            </Col>
+                                        ]}
+                                    >
+                                        <Meta
+                                            title={item.name}
+                                            description={`Price: ${Money(item?.price)} `}
+                                        />
+                                    </Card>
+                                </Col>
+                            ))}
+
                         </Row>
+
 
                     </div>
                 </Content>

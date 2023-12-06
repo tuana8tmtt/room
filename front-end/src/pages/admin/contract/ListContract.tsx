@@ -78,7 +78,7 @@ const ListContract = () => {
 
     return (
         <div>
-            <Layout style={{ padding: '0 24px 24px',height:"100vh"}}>
+            <Layout style={{ padding: '0 24px 24px', minHeight: '100vh', maxHeight: '900vh' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
                     <Breadcrumb.Item>Contract</Breadcrumb.Item>

@@ -70,7 +70,7 @@ function App() {
           </Route>
           <Route path='expense'>
             <Route index element={<ListExpense />} />
-            <Route path='edit/:id' element={<EditExpense />} />
+            <Route path='edit/' element={<EditExpense />} />
             <Route path='edit/room/:id' element={<EditExpenseRoom />} />
             <Route path='bill/:id' element={<BillExpense />} />
           </Route>
