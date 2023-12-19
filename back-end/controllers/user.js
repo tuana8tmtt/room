@@ -43,16 +43,20 @@ export const editPasswordUser = async (req, res, next) => {
 
         const user = await User.findOne({ _id }).exec();
         if (!user) {
-            return res.json({
+            return res.status(400).json({
                 message: "Tài khoản hoặc mật khẩu không chính xác",
             });
         }
         if (!user) {
-            throw new Error('Người dùng không tồn tại');
+            return res.status(400).json({
+                message: "Người dùng không tồn tại",
+            });
         }
 
         if (!user.authenticate(oldPass)) {
-            throw new Error('Mật khẩu cũ không đúng');
+            return res.status(400).json({
+                message: "Mật khẩu cũ không đúng",
+            });
         }
 
         user.password = password;

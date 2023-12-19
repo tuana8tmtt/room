@@ -1,9 +1,9 @@
-import { Breadcrumb, Col, Layout, Row } from 'antd'
+import { Breadcrumb, Col, Layout, notification, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, InputGroup } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { success } from 'toastr'
 import { editUser, getUserById, newPasswordUser } from '../../../api/auth'
 import { uploadImg } from '../../../utils/home'
@@ -30,6 +30,17 @@ const InfoAcc = () => {
     reset(item)
     setShow(true)
   };
+  const success = (type: string) => {
+    notification[type]({
+      message: 'Change Successful',
+    });
+  };
+  const errors = (type: string) => {
+    notification[type]({
+      message: 'Wrong old password',
+    });
+  };
+  const navigate = useNavigate()
   const onSubmit: SubmitHandler<any> = async (data: any) => {
 
     try {
@@ -38,10 +49,13 @@ const InfoAcc = () => {
       } else {
         await newPasswordUser({ _id: data._id, oldPass: data.oldPass, password: data.password });
         success('success')
+        localStorage.removeItem("user")
+        navigate("/home");
         reset();
       }
     } catch (error: any) {
-      console.log(error(error.response.data.error.message || error.response.data.message));
+      errors('error')
+      console.log(error);
 
     }
   }
@@ -55,6 +69,11 @@ const InfoAcc = () => {
     reset(item)
     setShow1(true)
   };
+  const edit = (type: string) => {
+    notification[type]({
+      message: 'Change Successful',
+    });
+  };
   const onSubmit1: SubmitHandler<any> = async data => {
 
     try {
@@ -64,6 +83,7 @@ const InfoAcc = () => {
       await editUser(data);
       reset();
       setShow1(false)
+      edit('success')
       openNotificationWithIcon1()
     } catch (error: any) {
       console.log(error(error.response.data.error.message || error.response.data.message));
@@ -77,8 +97,6 @@ const InfoAcc = () => {
       setUser(data)
     }
     getUser()
-
-
 
   }, [id])
   return (
@@ -104,7 +122,7 @@ const InfoAcc = () => {
                     <div className="col-span-3">
                       <div className="mt-1">
                         <img
-                          src={preview || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
+                          src={user?.image || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
                           alt="Preview Image"
                           className="h-8 w-full object-cover rounded-md"
                           style={{ height: "200px" }}
@@ -143,16 +161,15 @@ const InfoAcc = () => {
               keyboard={false}
             >
               <Modal.Header closeButton>
-                <Modal.Title>Edit Device</Modal.Title>
+                <Modal.Title>Edit Profile</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div>
                   <Form onSubmit={handleSubmit(onSubmit1)} >
-                    <h3>Hi</h3>
                     <div className="col-span-3">
                       <div className="mt-1">
                         <img
-                          src={preview || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
+                          src={user?.image || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
                           alt="Preview Image"
                           className="h-8 w-full object-cover rounded-md"
                           style={{ height: "200px" }}
@@ -186,14 +203,13 @@ const InfoAcc = () => {
               keyboard={false}
             >
               <Modal.Header closeButton>
-                <Modal.Title>Edit Device</Modal.Title>
+                <Modal.Title>Edit Password</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div>
                   <Form onSubmit={handleSubmit(onSubmit)} >
-                    <h3>Hi</h3>
                     <Form.Group as={Col} md="10" controlId="validationCustomUsername">
-                      <Form.Label>Password</Form.Label>
+                      <Form.Label>Old Password</Form.Label>
                       <InputGroup hasValidation>
                         <Form.Control
                           type="password"
