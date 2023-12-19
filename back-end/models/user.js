@@ -14,11 +14,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    role:{
+    phone: {
         type: Number,
-        default:0,
-    }
-},{timestamps:true})
+    },
+    role: {
+        type: Number,
+        default: 0,
+    },
+    image: {
+        type: String,
+    },
+}, { timestamps: true })
 userSchema.methods = {
     authenticate(password) {
         try {

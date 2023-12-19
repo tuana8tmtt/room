@@ -31,12 +31,12 @@ const Signin = ({ onLogin }: LoginPageProps) => {
     const navigate = useNavigate();
     const success = (type: string) => {
         notification[type]({
-            message: 'Login thành công',
+            message: 'Login Successful',
         });
     };
     const errors = (type: string) => {
         notification[type]({
-            message: 'Tài khoản hoặc mật khẩu không đúng',
+            message: 'Login error',
         });
     };
     if (key === 'signin') {

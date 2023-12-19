@@ -11,6 +11,7 @@ import serviceRoute from './routes/service'
 import contractRoute from './routes/contract'
 import expenseRoute from './routes/expense'
 import revenuaRoute from './routes/revenua'
+import userRoute from './routes/user'
 import { checkAuth } from './middlewares/checkAuth';
 import authRoute from './routes/auth'
 
@@ -30,6 +31,7 @@ app.use("/api", paymentRoute)
 app.use("/api", serviceRoute)
 app.use("/api", expenseRoute)
 app.use("/api", revenuaRoute)
+app.use("/api", userRoute)
 app.use("/api", authRoute)
 app.use("/api", checkAuth, contractRoute)
 

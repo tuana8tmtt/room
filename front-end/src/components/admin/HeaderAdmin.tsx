@@ -29,6 +29,7 @@ const HeaderAdmin = (props: Props) => {
 	const [options, setOptions] = useState([]);
 	const [inputValue, setInputValue] = useState('');
 
+	const { user } = JSON.parse(localStorage.getItem('user') as string)
 
 	const onSearch = async (val) => {
 		try {
@@ -65,8 +66,8 @@ const HeaderAdmin = (props: Props) => {
 
 	const onInputChange = (value) => {
 		setInputValue(value);
-	  };
-	
+	};
+
 	useEffect(() => {
 		onSearch(""); // Fetch initial data
 	}, []);
@@ -100,7 +101,7 @@ const HeaderAdmin = (props: Props) => {
 						</div>
 					</div>
 				)}
-				<NavLink to={'user'}><Avatar style={{ float: 'right' }} icon={<UserOutlined />} /></NavLink>
+				<NavLink to={'user/' + user._id}><Avatar style={{ float: 'right' }} icon={<UserOutlined />} /></NavLink>
 			</div>
 		</div>
 	)

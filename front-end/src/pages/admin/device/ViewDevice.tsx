@@ -172,7 +172,7 @@ const ViewDevice = (props: Props) => {
             const { data } = await list()
             setFurn(data)
         }
-        getFurn()
+        getFurn()   
 
     }, [id]);
     return (
@@ -323,7 +323,7 @@ const ViewDevice = (props: Props) => {
                                     </div>
                                 </Modal.Body>
 
-                            </Modal>
+                            </Modal>    
                         </div>
                     </div>
                 </Content >

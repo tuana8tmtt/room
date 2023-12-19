@@ -79,7 +79,7 @@ function App() {
             <Route path='add' element={<AddCate />} />
             <Route path='detail/:id' element={<EditOrder />} />
           </Route>
-          <Route path='user'>
+          <Route path='user/:id'>
             <Route index element={<InfoAcc />} />
           </Route>
           <Route path='apartment'>

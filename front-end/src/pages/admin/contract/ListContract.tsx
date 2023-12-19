@@ -11,6 +11,7 @@ import { list, remove } from '../../../api/contract';
 import Swal from 'sweetalert2';
 import { Money } from '../../../utils/home';
 import { ContractType } from '../../types/contract';
+import moment from 'moment';
 
 
 const { Title } = Typography;
@@ -48,11 +49,30 @@ const ListContract = () => {
     }
     const columns = [
         { title: 'STT', dataIndex: 'stt', key: 'stt' },
-        { title: 'Renter', dataIndex: 'renter', key: 'renter' },
-        { title: 'Renter ID', dataIndex: 'renterID', key: 'renterID' },
-        { title: 'Price', dataIndex: 'price', key: 'price' },
-        { title: 'Room', dataIndex: 'room', key: 'room' },
+        {
+            title: 'Renter',
+            dataIndex: 'renter',
+            key: 'renter',
+            sorter: (a, b) => a.renter.length - b.renter.length,
+            render: (recore: any) => (recore)
 
+        },
+        { title: 'Renter ID', dataIndex: 'renterID', key: 'renterID' },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+            sorter: (a, b) => a.price - b.price,
+            render: (recore: any) => (Money(recore))
+        },
+        { title: 'Room', dataIndex: 'room', key: 'room' },
+        {
+            title: 'Start Date',
+            dataIndex: 'startdate',
+            key: 'startdate',
+            sorter: (a, b) => moment(a.startdate).unix() - moment(b.startdate).unix(),
+            render: (recore: any) => (recore)
+        },
         {
             title: 'Action',
             dataIndex: '',
@@ -70,8 +90,9 @@ const ListContract = () => {
             stt: index + 1,
             renter: product.renter,
             renterID: product.renterID,
-            price: Money(product.price),
+            price: product.price,
             room: product.room,
+            startdate: product.startdate,
             id: product._id
         }
     })
