@@ -1,5 +1,6 @@
 import { Breadcrumb, Col, Layout, notification, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, InputGroup } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -74,31 +75,36 @@ const InfoAcc = () => {
       message: 'Change Successful',
     });
   };
+  const getUser = async () => {
+    const { data } = await getUserById(id)
+    console.log(data);
+    setUser(data)
+  }
   const onSubmit1: SubmitHandler<any> = async data => {
 
     try {
       if (typeof data.image === "object" && data.image.length) {
         data.image = await uploadImg(data.image[0]);
       }
+      if (typeof data.imageID === "object" && data.imageID.length) {
+        data.imageID = await uploadImg(data.imageID[0]);
+      }
       await editUser(data);
       reset();
       setShow1(false)
+      getUser()
       edit('success')
       openNotificationWithIcon1()
+      id
     } catch (error: any) {
       console.log(error(error.response.data.error.message || error.response.data.message));
 
     }
   }
   useEffect(() => {
-    const getUser = async () => {
-      const { data } = await getUserById(id)
-      console.log(data);
-      setUser(data)
-    }
     getUser()
 
-  }, [id])
+  }, [])
   return (
     <div>
       <Layout style={{ padding: '0 24px 24px', height: "100vh" }}>
@@ -138,6 +144,8 @@ const InfoAcc = () => {
               </Col>
               <Col span={12}>
                 <div style={{ alignItems: 'center', gap: 10 }}>
+                  <p style={{ fontSize: '25px' }}>Full name: {user?.fullname} </p>
+                  <p style={{ fontSize: '25px' }}>Date of Birth: {moment(user?.date).format('DD-MM-yyyy')} </p>
                   <p style={{ fontSize: '25px' }}>Mail: {user?.email}</p>
                   <p style={{ fontSize: '25px' }}>Username: {user?.name} </p>
                   <p style={{ fontSize: '25px' }}>Phone: {user?.phone} </p>
@@ -166,19 +174,49 @@ const InfoAcc = () => {
               <Modal.Body>
                 <div>
                   <Form onSubmit={handleSubmit(onSubmit1)} >
+                    <Form.Group as={Col} md="4" className="mb-3" >
+                      <Form.Label>Full Name</Form.Label>
+                      <Form.Control type="text" {...register('fullname')} />
+                    </Form.Group>
+                    <Form.Group as={Col} md="4" className="mb-3" >
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control type="text" {...register('phone')} />
+                    </Form.Group>
+                    <Form.Group as={Col} md="4" className="mb-3" >
+                      <Form.Label>Date of birth</Form.Label>
+                      <Form.Control type="date" {...register('date')} />
+                    </Form.Group>
                     <div className="col-span-3">
                       <div className="mt-1">
                         <img
                           src={user?.image || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
                           alt="Preview Image"
                           className="h-8 w-full object-cover rounded-md"
-                          style={{ height: "200px" }}
+                          style={{ height: "150px" }}
                         />
                       </div>
                     </div>
                     <Form.Group controlId="formFile" className="mt-5">
                       <Form.Label>Upload Image</Form.Label>
                       <Form.Control type="file" {...register('image')} onChange={e => handlePreview(e)} style={{ width: '300px' }} />
+                    </Form.Group>
+                    <div className="col-span-3">
+                      <div className="mt-1">
+                        <img
+                          src={user?.imageID || "https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"}
+                          alt="Preview Image"
+                          className="h-8 w-full object-cover rounded-md"
+                          style={{ height: "150px" }}
+                        />
+                      </div>
+                    </div>
+                    <Form.Group controlId="formFile" className="mt-5">
+                      <Form.Label>Upload ID Image <span style={{ color: 'red' }}>*Must have</span> </Form.Label>
+                      {!user?.imageID ? (
+                        <Form.Control type="file" {...register('imageID')} required onChange={e => handlePreview(e)} style={{ width: '300px' }} />
+                      ) : (
+                        <Form.Control type="file" {...register('imageID')} onChange={e => handlePreview(e)} style={{ width: '300px' }} />
+                      )}
                     </Form.Group>
                     <div style={{ float: 'right' }}>
                       <Button variant="secondary" onClick={() => handleClose1()} style={{ marginRight: '10px' }}>

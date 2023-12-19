@@ -24,6 +24,15 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
     },
+    imageID:{
+        type: String,
+    },
+    fullname:{
+        type: String,
+    },
+    date:{
+        type: String,
+    },
 }, { timestamps: true })
 userSchema.methods = {
     authenticate(password) {
