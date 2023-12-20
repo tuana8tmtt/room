@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     fullname:{
         type: String,
     },
-    date:{
+    dateofbirth:{
         type: String,
     },
 }, { timestamps: true })

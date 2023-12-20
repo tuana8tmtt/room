@@ -145,7 +145,7 @@ const InfoAcc = () => {
               <Col span={12}>
                 <div style={{ alignItems: 'center', gap: 10 }}>
                   <p style={{ fontSize: '25px' }}>Full name: {user?.fullname} </p>
-                  <p style={{ fontSize: '25px' }}>Date of Birth: {moment(user?.date).format('DD-MM-yyyy')} </p>
+                  <p style={{ fontSize: '25px' }}>Date of Birth: {!user?.dateofbirth ? null : moment(user?.dateofbirth).format('DD-MM-yyyy')} </p>
                   <p style={{ fontSize: '25px' }}>Mail: {user?.email}</p>
                   <p style={{ fontSize: '25px' }}>Username: {user?.name} </p>
                   <p style={{ fontSize: '25px' }}>Phone: {user?.phone} </p>
@@ -184,7 +184,7 @@ const InfoAcc = () => {
                     </Form.Group>
                     <Form.Group as={Col} md="4" className="mb-3" >
                       <Form.Label>Date of birth</Form.Label>
-                      <Form.Control type="date" {...register('date')} />
+                      <Form.Control type="date" {...register('dateofbirth')} />
                     </Form.Group>
                     <div className="col-span-3">
                       <div className="mt-1">
