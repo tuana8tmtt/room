@@ -34,7 +34,7 @@ const Dashboard = (props: Props) => {
 
     const data1 = [
         {
-            year: '1991',
+            month: '1',
             value: 3,
         },
     ];
@@ -170,10 +170,259 @@ const Dashboard = (props: Props) => {
             },
         ],
     });
+
+    const dataCollum = [
+        {
+            name: 'Income',
+            Month: 'Jan.',
+            Value: 18.9,
+        },
+        {
+            name: 'Income',
+            Month: 'Feb.',
+            Value: 28.8,
+        },
+        {
+            name: 'Income',
+            Month: 'Mar.',
+            Value: 39.3,
+        },
+        {
+            name: 'Income',
+            Month: 'Apr.',
+            Value: 81.4,
+        },
+        {
+            name: 'Income',
+            Month: 'May.',
+            Value: 47,
+        },
+        {
+            name: 'Income',
+            Month: 'Jun.',
+            Value: 20.3,
+        },
+        {
+            name: 'Income',
+            Month: 'Jul.',
+            Value: 24,
+        },
+        {
+            name: 'Income',
+            Month: 'Aug.',
+            Value: 35.6,
+        },
+        {
+            name: 'Income',
+            Month: 'Sep.',
+            Value: 35.6,
+        },
+        {
+            name: 'Income',
+            Month: 'Oct.',
+            Value: 35.6,
+        },
+        {
+            name: 'Income',
+            Month: 'Nov.',
+            Value: 35.6,
+        },
+        {
+            name: 'Income',
+            Month: 'Dec.',
+            Value: 35.6,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Jan.',
+            Value: 12.4,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Feb.',
+            Value: 23.2,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Mar.',
+            Value: 34.5,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Apr.',
+            Value: 99.7,
+        },
+        {
+            name: 'Expenture',
+            Month: 'May.',
+            Value: 52.6,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Jun.',
+            Value: 35.5,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Jul.',
+            Value: 34.4,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Aug.',
+            Value: 125,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Sep.',
+            Value: 99.6,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Oct.',
+            Value: 49.6,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Nov.',
+            Value: 68.6,
+        },
+        {
+            name: 'Expenture',
+            Month: 'Dec.',
+            Value: 80,
+        },
+    ];
+
+    const dataCollum1 = [
+        {
+            Month: 'Jan',
+            Value: 18.9,
+        },
+        {
+            Month: 'Feb',
+            Value: 28.8,
+        },
+        {
+            Month: 'Mar',
+            Value: 39.3,
+        },
+        {
+            Month: 'Apr',
+            Value: 81.4,
+        },
+        {
+            Month: 'May',
+            Value: 47,
+        },
+        {
+            Month: 'Jun',
+            Value: 20.3,
+        },
+        {
+            Month: 'Jul',
+            Value: 35.6,
+        },
+        {
+            Month: 'Aug',
+            Value: 34.5,
+        },
+        {
+            Month: 'Sep',
+            Value: 99.7,
+        },
+        {
+            Month: 'Nov',
+            Value: 70,
+        },
+        {
+            Month: 'Dec',
+            Value: 52.6,
+        },
+    ];
+
+    const dataCollum2 = [
+        {
+            Month: 'Jan',
+            Value: 18.9,
+        },
+        {
+            Month: 'Feb',
+            Value: 28.8,
+        },
+        {
+            Month: 'Mar',
+            Value: 39.3,
+        },
+        {
+            Month: 'Apr',
+            Value: 81.4,
+        },
+        {
+            Month: 'May',
+            Value: 47,
+        },
+        {
+            Month: 'Jun',
+            Value: 20.3,
+        },
+        {
+            Month: 'Jul',
+            Value: 35.6,
+        },
+        {
+            Month: 'Aug',
+            Value: 34.5,
+        },
+        {
+            Month: 'Sep',
+            Value: 99.7,
+        },
+        {
+            Month: 'Nov',
+            Value: 52.6,
+        },
+        {
+            Month: 'Dec',
+            Value: 120,
+        },
+    ];
+    const configCollum = {
+        dataCollum,
+        isGroup: true,
+        xField: 'Month',
+        yField: 'Value',
+        seriesField: 'name',
+
+        /** 设置颜色 */
+        //color: ['#1ca9e6', '#f88c24'],
+
+        /** 设置间距 */
+        // marginRatio: 0.1,
+        label: {
+            // 可手动配置 label 数据标签位置
+            position: 'middle',
+            // 'top', 'middle', 'bottom'
+            // 可配置附加的布局方法
+            layout: [
+                // 柱形图数据标签位置自动调整
+                {
+                    type: 'interval-adjust-position',
+                }, // 数据标签防遮挡
+                {
+                    type: 'interval-hide-overlap',
+                }, // 数据标签文颜色自动调整
+                {
+                    type: 'adjust-color',
+                },
+            ],
+        },
+    };
+
     const config = {
-        data,
-        xField: 'year',
-        yField: 'value',
+        dataCollum1,
+        xField: 'Month',
+        yField: 'Value',
         label: {},
         point: {
             size: 5,
@@ -202,119 +451,6 @@ const Dashboard = (props: Props) => {
             },
         ],
     };
-    const dataCollum = [
-        {
-            name: 'London',
-            月份: 'Jan.',
-            月均降雨量: 18.9,
-        },
-        {
-            name: 'London',
-            月份: 'Feb.',
-            月均降雨量: 28.8,
-        },
-        {
-            name: 'London',
-            月份: 'Mar.',
-            月均降雨量: 39.3,
-        },
-        {
-            name: 'London',
-            月份: 'Apr.',
-            月均降雨量: 81.4,
-        },
-        {
-            name: 'London',
-            月份: 'May',
-            月均降雨量: 47,
-        },
-        {
-            name: 'London',
-            月份: 'Jun.',
-            月均降雨量: 20.3,
-        },
-        {
-            name: 'London',
-            月份: 'Jul.',
-            月均降雨量: 24,
-        },
-        {
-            name: 'London',
-            月份: 'Aug.',
-            月均降雨量: 35.6,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Jan.',
-            月均降雨量: 12.4,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Feb.',
-            月均降雨量: 23.2,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Mar.',
-            月均降雨量: 34.5,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Apr.',
-            月均降雨量: 99.7,
-        },
-        {
-            name: 'Berlin',
-            月份: 'May',
-            月均降雨量: 52.6,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Jun.',
-            月均降雨量: 35.5,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Jul.',
-            月均降雨量: 37.4,
-        },
-        {
-            name: 'Berlin',
-            月份: 'Aug.',
-            月均降雨量: 42.4,
-        },
-    ];
-    const configCollum = {
-        dataCollum,
-        isGroup: true,
-        xField: '月份',
-        yField: '月均降雨量',
-        seriesField: 'name',
-
-        /** 设置颜色 */
-        //color: ['#1ca9e6', '#f88c24'],
-
-        /** 设置间距 */
-        // marginRatio: 0.1,
-        label: {
-            // 可手动配置 label 数据标签位置
-            position: 'middle',
-            // 'top', 'middle', 'bottom'
-            // 可配置附加的布局方法
-            layout: [
-                // 柱形图数据标签位置自动调整
-                {
-                    type: 'interval-adjust-position',
-                }, // 数据标签防遮挡
-                {
-                    type: 'interval-hide-overlap',
-                }, // 数据标签文颜色自动调整
-                {
-                    type: 'adjust-color',
-                },
-            ],
-        },
-    };
     return (
         <div>
             <Layout>
@@ -334,13 +470,13 @@ const Dashboard = (props: Props) => {
                         <Row >
                             <Col span={12} style={{ paddingRight: '20px', textAlign: 'center' }}>
                                 <div>
-                                    <Line {...config} />
+                                    <Line data={dataCollum1} {...config} />
                                 </div>
                                 <p>Number of Contract</p>
                             </Col>
                             <Col span={12} style={{ textAlign: 'center' }}>
                                 <div>
-                                    <Line {...config} />
+                                    <Line data={dataCollum2} {...config} />
                                 </div>
                                 <p>Revenua</p>
                             </Col>

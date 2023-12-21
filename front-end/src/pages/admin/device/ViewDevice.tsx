@@ -171,8 +171,9 @@ const ViewDevice = (props: Props) => {
         const getFurn = async () => {
             const { data } = await list()
             setFurn(data)
+            console.log(data)
         }
-        getFurn()   
+        getFurn()
 
     }, [id]);
     return (
@@ -199,7 +200,7 @@ const ViewDevice = (props: Props) => {
                                 </Col>
                                 <Col flex={4}>
                                     <h4>{service?.name}</h4>
-                                    <p>Quantity: {furn?.filter(item => item.service_id === id).length} </p>
+                                    <p>Quantity: {furn.reduce((acc, o) => acc + parseInt(o.quantity), 0)} </p>
                                 </Col>
                                 <Col flex={1}>
                                     <button onClick={() => navigate(-1)} className='btn btn-secondary'>Back</button>
@@ -252,7 +253,7 @@ const ViewDevice = (props: Props) => {
                                             <Form.Group as={Col} md="4" className="mb-3" >
                                                 <Form.Control hidden type="text" value={id} {...register('service_id')} />
                                             </Form.Group>
-                                            
+
                                             <div style={{ float: 'right' }}>
                                                 <Button variant="secondary" onClick={() => handleClose()} style={{ marginRight: '10px' }}>
                                                     Close
@@ -323,7 +324,7 @@ const ViewDevice = (props: Props) => {
                                     </div>
                                 </Modal.Body>
 
-                            </Modal>    
+                            </Modal>
                         </div>
                     </div>
                 </Content >

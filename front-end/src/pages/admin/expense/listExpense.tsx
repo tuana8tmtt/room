@@ -139,6 +139,8 @@ const ListExpense = () => {
         if (!isNaN(numericValue)) {
             return acc + numericValue;
         }
+        // console.log();
+
         return acc;
     }, 0);
 

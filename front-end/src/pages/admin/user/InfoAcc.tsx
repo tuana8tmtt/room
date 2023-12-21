@@ -109,8 +109,8 @@ const InfoAcc = () => {
     <div>
       <Layout style={{ padding: '0 24px 24px', height: "100vh" }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Expense</Breadcrumb.Item>
+          {/* <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Expense</Breadcrumb.Item> */}
         </Breadcrumb>
 
         <Content
@@ -210,14 +210,14 @@ const InfoAcc = () => {
                         />
                       </div>
                     </div>
-                    <Form.Group controlId="formFile" className="mt-5">
+                    {/* <Form.Group controlId="formFile" className="mt-5">
                       <Form.Label>Upload ID Image <span style={{ color: 'red' }}>*Must have</span> </Form.Label>
                       {!user?.imageID ? (
                         <Form.Control type="file" {...register('imageID')} required onChange={e => handlePreview(e)} style={{ width: '300px' }} />
                       ) : (
                         <Form.Control type="file" {...register('imageID')} onChange={e => handlePreview(e)} style={{ width: '300px' }} />
                       )}
-                    </Form.Group>
+                    </Form.Group> */}
                     <div style={{ float: 'right' }}>
                       <Button variant="secondary" onClick={() => handleClose1()} style={{ marginRight: '10px' }}>
                         Close

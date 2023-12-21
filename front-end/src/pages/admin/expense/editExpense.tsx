@@ -6,6 +6,7 @@ import { Content } from 'antd/lib/layout/layout';
 import { useNavigate, useParams } from 'react-router-dom';
 import { add, list, remove, update } from '../../../api/expense';
 import 'react-toastify/dist/ReactToastify.css';
+// import { DatePicker } from 'antd';
 
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
@@ -148,6 +149,15 @@ const EditExpense = () => {
       title: 'Payment deadline',
       dataIndex: 'paymentdeadline',
       editable: true,
+      // render: (text, record) => {
+      //   // Assuming 'paymentdeadline' is a date field in your data
+      //   return (
+      //     <DatePicker
+      //       value={text ? moment(text) : null}
+      //       onChange={(date, dateString) => handleDateChange(date, dateString, record.key, 'paymentdeadline')}
+      //     />
+      //   );
+      // },
     },
     {
       title: 'Payment date',
